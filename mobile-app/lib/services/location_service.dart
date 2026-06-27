@@ -29,7 +29,12 @@ class LocationService extends ChangeNotifier {
 
     // Setup socket configuration targeting server
     // Note: Use computer's local IP for real device connectivity
-    _socket = io.io('http://172.168.25.92:5000', io.OptionBuilder()
+    // Infer socket connection URL from ApiService.baseUrl
+    final socketUrl = ApiService.baseUrl.endsWith('/api')
+        ? ApiService.baseUrl.substring(0, ApiService.baseUrl.length - 4)
+        : ApiService.baseUrl;
+
+    _socket = io.io(socketUrl, io.OptionBuilder()
       .setTransports(['websocket'])
       .setAuth({
         'token': token,

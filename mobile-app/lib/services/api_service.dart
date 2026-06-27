@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uuid/uuid.dart';
 
 class ApiService {
+  // FOR PRODUCTION: Change this to your deployed Render service URL (e.g. 'https://your-service.onrender.com/api')
   static const String baseUrl = 'http://172.168.25.92:5000/api'; // Computer's local IP address for real device connectivity
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
