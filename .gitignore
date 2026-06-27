@@ -1,0 +1,48 @@
+# ── Node.js ──────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-error.log
+
+# ── TypeScript Build Output ───────────────
+dist/
+build/
+.next/
+out/
+
+# ── Environment Variables (NEVER commit) ──
+.env
+.env.local
+.env.production
+
+# ── Flutter ───────────────────────────────
+mobile-app/.dart_tool/
+mobile-app/.flutter-plugins
+mobile-app/.flutter-plugins-dependencies
+mobile-app/build/
+mobile-app/*.g.dart
+mobile-app/*.freezed.dart
+
+# ── Database ──────────────────────────────
+*.sql.bak
+postgres_data/
+redis_data/
+
+# ── Docker ────────────────────────────────
+.docker/
+
+# ── IDE & OS ──────────────────────────────
+.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# ── Logs ─────────────────────────────────
+logs/
+*.log
+
+# ── Build Tools & APKs ───────────────────
+.build_tools/
+*.apk
+
