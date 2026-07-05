@@ -8,7 +8,6 @@ import { processStudentLocation } from './geofenceService';
 import { query } from '../db';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_jwt_key_change_me_in_production';
-const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
 
 let io: Server;
 
@@ -21,18 +20,22 @@ export async function initSocketServer(httpServer: HttpServer): Promise<Server> 
   });
 
   // Optional Redis Adapter Setup for horizontal scaling
-  try {
-    const pubClient = createClient({ url: REDIS_URL });
-    const subClient = pubClient.duplicate();
+  if (process.env.REDIS_URL) {
+    try {
+      const pubClient = createClient({ url: process.env.REDIS_URL });
+      const subClient = pubClient.duplicate();
 
-    pubClient.on('error', (err) => console.warn('[Socket.IO Redis] Pub Client Error:', err.message));
-    subClient.on('error', (err) => console.warn('[Socket.IO Redis] Sub Client Error:', err.message));
+      pubClient.on('error', (err) => console.warn('[Socket.IO Redis] Pub Client Error:', err.message));
+      subClient.on('error', (err) => console.warn('[Socket.IO Redis] Sub Client Error:', err.message));
 
-    await Promise.all([pubClient.connect(), subClient.connect()]);
-    io.adapter(createAdapter(pubClient, subClient));
-    console.log('[Socket.IO] Redis adapter active.');
-  } catch (error: any) {
-    console.warn('[Socket.IO] Could not initialize Redis adapter, falling back to default memory adapter. Error:', error.message);
+      await Promise.all([pubClient.connect(), subClient.connect()]);
+      io.adapter(createAdapter(pubClient, subClient));
+      console.log('[Socket.IO] Redis adapter active.');
+    } catch (error: any) {
+      console.warn('[Socket.IO] Could not initialize Redis adapter, falling back to default memory adapter. Error:', error.message);
+    }
+  } else {
+    console.log('[Socket.IO] No REDIS_URL provided. Using default in-memory adapter.');
   }
 
   // Socket.IO Handshake JWT Middleware
