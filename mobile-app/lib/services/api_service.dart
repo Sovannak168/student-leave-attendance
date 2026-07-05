@@ -6,7 +6,7 @@ import 'package:uuid/uuid.dart';
 
 class ApiService {
   // FOR PRODUCTION: Change this to your deployed Render service URL (e.g. 'https://your-service.onrender.com/api')
-  static const String baseUrl = 'http://172.168.25.92:5000/api'; // Computer's local IP address for real device connectivity
+  static const String baseUrl = 'https://student-geofence-backend.onrender.com/api'; // Live Render backend url
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   // Retrieve or generate persistent unique device UUID
