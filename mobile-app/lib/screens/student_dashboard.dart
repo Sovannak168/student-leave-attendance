@@ -405,19 +405,41 @@ class _StudentDashboardState extends State<StudentDashboard> {
                         Text('Real-time Geofence Tracking', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
                       ],
                     ),
-                    Switch(
-                      value: locationService.isTracking,
-                      activeColor: primaryColor,
-                      onChanged: (val) {
-                        if (val) {
-                          locationService.startTracking().catchError((e) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
-                          });
-                        } else {
-                          locationService.stopTracking();
-                        }
-                      },
-                    )
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: locationService.isTracking
+                            ? const Color(0xFF10B981).withOpacity(0.1)
+                            : const Color(0xFFEF4444).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: locationService.isTracking
+                              ? const Color(0xFF10B981).withOpacity(0.3)
+                              : const Color(0xFFEF4444).withOpacity(0.3),
+                          width: 1,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (locationService.isTracking)
+                            const Padding(
+                              padding: EdgeInsets.only(right: 6),
+                              child: Icon(Icons.radio_button_checked, size: 12, color: Color(0xFF10B981)),
+                            ),
+                          Text(
+                            locationService.isTracking ? "ACTIVE" : "STOPPED",
+                            style: TextStyle(
+                              color: locationService.isTracking
+                                  ? const Color(0xFF10B981)
+                                  : const Color(0xFFEF4444),
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 Divider(color: borderCol, height: 24),
@@ -969,4 +991,3 @@ class _StudentDashboardState extends State<StudentDashboard> {
     );
   }
 }
-
