@@ -420,7 +420,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                     )
                   ],
                 ),
-                const Divider(color: borderCol, height: 24),
+                Divider(color: borderCol, height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
