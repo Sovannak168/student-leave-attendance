@@ -127,10 +127,9 @@ Write-Host "=== 5. Building the Mobile App APK ==="
 
 cd "$workspace\mobile-app"
 
-# Clean build artifacts if any
-if (Test-Path "build") {
-    Remove-Item -Recurse -Force "build" -ErrorAction SilentlyContinue
-}
+# Clean build artifacts
+Write-Host "Cleaning project build cache..."
+& "$flutterDir\bin\flutter.bat" clean
 
 # Generate Android platform project files
 Write-Host "Generating Android project files..."
