@@ -5,9 +5,11 @@ import 'screens/login_screen.dart';
 import 'screens/student_dashboard.dart';
 import 'screens/guard_dashboard.dart';
 import 'services/api_service.dart';
+import 'services/location_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await LocationService.initializeBackgroundService();
   runApp(const MyApp());
 }
 
