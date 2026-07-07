@@ -205,5 +205,61 @@ class ApiService {
       return {'success': false, 'error': 'Network connection error.'};
     }
   }
+
+  // STUDENT SCAN QR CODE
+  Future<Map<String, dynamic>> studentScanQrCode(String qrToken) async {
+    try {
+      final token = await getToken();
+      if (token == null) return {'success': false, 'error': 'Not authenticated'};
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/exit-logs/student-scan'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'qrToken': qrToken,
+        }),
+      ).timeout(const Duration(seconds: 7));
+
+      final responseData = jsonDecode(response.body);
+      if (response.statusCode == 200 && responseData['accessGranted'] == true) {
+        return {'success': true, 'message': responseData['message'], 'details': responseData['logDetails']};
+      } else {
+        return {'success': false, 'error': responseData['error'] ?? 'Validation failed'};
+      }
+    } on TimeoutException catch (_) {
+      return {'success': false, 'error': 'Request timed out. Please check network connectivity.'};
+    } catch (e) {
+      return {'success': false, 'error': 'Network connection error.'};
+    }
+  }
+
+  // STUDENT FETCH ACTIVITY LOGS
+  Future<Map<String, dynamic>> fetchExitLogs() async {
+    try {
+      final token = await getToken();
+      if (token == null) return {'success': false, 'error': 'Not authenticated'};
+
+      final response = await http.get(
+        Uri.parse('$baseUrl/exit-logs'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      ).timeout(const Duration(seconds: 7));
+
+      final responseData = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return {'success': true, 'exitLogs': responseData['exitLogs']};
+      } else {
+        return {'success': false, 'error': responseData['error'] ?? 'Failed to fetch activity logs'};
+      }
+    } on TimeoutException catch (_) {
+      return {'success': false, 'error': 'Request timed out. Please check network connectivity.'};
+    } catch (e) {
+      return {'success': false, 'error': 'Network connection error.'};
+    }
+  }
 }
 
